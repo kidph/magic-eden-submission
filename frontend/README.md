@@ -16,18 +16,16 @@ Both use similar mechanics under the hood, but operate differently. A detailed e
 
 ## Video Walkthrough
 
-
 https://user-images.githubusercontent.com/97425666/204110712-b8f24375-213d-4265-b566-aa1baea27b18.mp4
-
 
 ---
 
 ## Features
 
--   API key protected endpoints
--   Automated Subscription Checking
--   Metadata switching
--   Automated Hashlist access
+-   Dashboard to allow users to pay unpaid royalties and unlock nft
+-   Dashboard to allow users to pay their monthly/weekly subscription
+-   Automated Haslist fetching and NFT filtering
+-   Basic Template for handling transactions
 
 ---
 
@@ -50,60 +48,30 @@ to install all the dependencies.
 3.  Change the values in the `.env` to your own values
 
 ```
-PORT=<Desired Port>
-MONGO_DB_PASSWORD=<Mongo DB Password>
-MONGO_DB_USERNAME=<Mongo DB Username>
+MONGO_DB_USERNAME=Database username
+MONGO_DB_PASSWORD=Database password
 MONGO_URL:Connection string following username and password
-CORAL_KEY=<Coral Cube Api Key>
-HELIUS_KEY=<Helius Api Key>
-SIGNER=<Private Key of Update Authority Wallet in BS58>
-API_KEY: <Tempory Api Key>
+API_KEY=Generated Api Key
+API_URL=Private api url
 ```
 
 ---
 
-5.  Purchase a Helius api key. <https://helius.xyz>
-
----
-
-6.  Use Helius to run a webhook using the following settings:
+4. Run on local dev server by using:
 
 ```
-Webhook Type: Enhanced
-Transaction Type: NFT_SALE
-Webhook URL: The url to your private endpoint
-Account Address: Below are the contract addresses for the top Solana Marketplaces
-
-Magic Eden: M2mx93ekt1fmXSVkTrUL9xVFHkmME8HTUi5Cyc5aF7K
-Hyperspace: HYPERfwdTjyJ2SCaKHmpF2MtrXqWxrsotYDsTrshHWq8
-YAWWW: 5SKmrbAxnHV2sgqyDXkGrLrokZYtWWVEEk5Soed7VLVN
-Exlixir: 2qGyiNeWyZxNdkvWHc2jT5qkCnYa1j1gDLSSUmyoWMh8
-Solanart: hausS13jsjafwWwGqZTUQRmWyvyxn9EQpqMwV1PBBmk
-Hadeswap: hadeK9DLv9eA7ya5KCTqSvSvRZeJC3JgD5a9Y3CNbvu
-```
-
----
-
-7. Run the server locally using:
-
-```
-
-npm start or yarn start
-
-```
-
-This will launch your backend server on localhost:8080 or whatever port you have specified.
-
+npm run dev
+or
+yarn run dev
 ---
 
 ## Usage
 
-Once you've completed the setup, read through the code and take a look at the comments.
-
-Upon launching, you should be good to go!
+Code is pretty well commented along with styling files.  This is a basic template and by no means a production ready dashboard.  Feel free to use components for your own build or edit mine.
 
 ---
 
 ## License
 
 This project is licensed under the terms of the **MIT** license.
+```
