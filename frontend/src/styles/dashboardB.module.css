@@ -1,0 +1,167 @@
+.container {
+    min-height: 100vh;
+    width: 100%;
+    background-image: radial-gradient(#e6e0e0 0%, rgb(192, 181, 181) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    color: white;
+    position: relative;
+}
+.titleContainer {
+    background-color: #363333;
+    width: fit-content;
+    padding: 10px 20px;
+    position: absolute;
+    top: 0;
+    right: 30px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.walletButtonContainer {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.module {
+    margin-top: 100px;
+}
+.dashboardContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+.nftTitle {
+    margin-right: auto;
+}
+.module {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+.nfts {
+    background-color: #16141471;
+    border-radius: 10px;
+    border: 1px solid rgba(25, 22, 209, 0.192);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+        rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    padding: 20px;
+    min-width: 100%;
+    min-height: 300px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.nftContainer {
+    height: 250px;
+    width: 200px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+        rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    margin: 10px;
+    border: 1px solid rgba(25, 22, 209, 0.192);
+    border-radius: 5px;
+    padding: 2px;
+    position: relative;
+}
+.nftImage {
+    height: 100%;
+    width: 100%;
+}
+
+.nameplate {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.829);
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.nameplate:hover {
+    z-index: 50;
+    color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0.753);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    opacity: 1;
+    visibility: visible;
+    background-color: rgba(0, 0, 0, 0.753);
+}
+.inactiveContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid rgb(19, 12, 51);
+    margin: 0 10px;
+    padding: 0 20px;
+}
+.buttonGroup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CSS */
+.btn {
+    align-items: center;
+    appearance: none;
+    background-color: #fcfcfd;
+    border-radius: 4px;
+    border-width: 0;
+    box-shadow: rgba(245, 239, 239, 0.4) 0 2px 4px, rgba(246, 245, 248, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+    box-sizing: border-box;
+    color: #36395a;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: 'JetBrains Mono', monospace;
+    height: 48px;
+    justify-content: center;
+    line-height: 1;
+    list-style: none;
+    overflow: hidden;
+    padding-left: 16px;
+    padding-right: 16px;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    transition: box-shadow 0.15s, transform 0.15s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    will-change: box-shadow, transform;
+    font-size: 18px;
+}
+
+.btn:focus {
+    box-shadow: #d6d6e7 0 0 0 1.5px inset, rgba(239, 237, 241, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
+        #d6d6e7 0 -3px 0 inset;
+}
+
+.btn:hover {
+    box-shadow: rgba(226, 224, 231, 0.4) 0 4px 8px, rgba(230, 227, 235, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    box-shadow: #d6d6e7 0 3px 7px inset;
+    transform: translateY(2px);
+}
