@@ -1,27 +1,32 @@
 import { useAnchorWallet } from '@solana/wallet-adapter-react';
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from '../../components/Loader';
-import PayAll from '../../components/payAll';
-import PayRoyalty from '../../components/payRoyalty';
 import PaySubscription from '../../components/paySubscription';
-
 const styles = require('../../styles/dashboardB.module.css');
 
 export default function DashboardB() {
+    //initialize wallet object and convert publickey to a string
     const wallet = useAnchorWallet();
     const walletAddress = wallet?.publicKey.toString();
+
+    //declare and initialize state variables for dynamic data
     const [isLoading, setIsLoading] = useState(true);
     const [activeNfts, setActiveNfts] = useState([]);
     const [inactiveNfts, setInactiveNfts] = useState([]);
     const [payment, setPayment] = useState([]);
     const [hasNft, setHasNft] = useState(false);
+
+    //separate inactive and active dates for subscription
+    //***consequence of splitting active and inactive nfts and not combining.
     const [inactiveSubscriptonDates, setInactiveSubscriptionDates] = useState([]);
     const [activeSubscriptonDates, setactiveSubscriptionDates] = useState([]);
 
+    //fetch the nfts in connected wallet from the specified hashlist
+    //(happens on Next backend).
+    //Sort returned nft objects by the active parameter in metadata
     async function getNfts() {
         const url = '/api/utils/getNfts';
 
@@ -45,6 +50,8 @@ export default function DashboardB() {
         if (wallet?.publicKey) getNfts();
     }, [wallet]);
 
+    //fetch the subscription fee and dates.
+    //The fee only applies to expired subscriptions.
     async function fetchPaymentDue() {
         for (let nft of inactiveNfts) {
             const url = '/api/utils/fetchPayment';

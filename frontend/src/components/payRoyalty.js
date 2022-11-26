@@ -5,11 +5,10 @@ import { useState } from 'react';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+//For details on the workings of this compenent see the payAll.js for comments.
+//This function handles single nft payments
 export default function PayRoyalty({ mint, fee }) {
-    const connection = new Connection(
-        'https://frosty-shy-violet.solana-mainnet.quiknode.pro/45c1c31d6e058e521eb0c8d9be91c2bc640fbfae/',
-        'confirmed'
-    );
+    const connection = new Connection('https://api.mainnet-beta.solana.com', 'confirmed');
     let toastPromise;
     const fromWallet = useAnchorWallet();
     const { sendTransaction } = useWallet();

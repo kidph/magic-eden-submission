@@ -1,13 +1,15 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 const Home = () => {
+    //Set a loading state and delay reveal 3000 milliseconds on initial load
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         setTimeout(() => {
             setIsLoading(false);
         }, 3000);
-    });
+    }, []);
+
     return (
         <div className="main-container" id="main-container">
             <h1>Royalty Protection and Ancillery Revenue</h1>

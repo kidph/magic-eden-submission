@@ -1,5 +1,4 @@
 import { useAnchorWallet } from '@solana/wallet-adapter-react';
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
@@ -7,18 +6,22 @@ import 'react-toastify/dist/ReactToastify.css';
 import Loader from '../../components/Loader';
 import PayAll from '../../components/payAll';
 import PayRoyalty from '../../components/payRoyalty';
-
 const styles = require('../../styles/dashboard.module.css');
 
 export default function DashboardA() {
+    //initialize wallet and convert publickeyto a string
     const wallet = useAnchorWallet();
     const walletAddress = wallet?.publicKey.toString();
+
+    //declare and initialize state variables for dynamic data
     const [isLoading, setIsLoading] = useState(true);
     const [activeNfts, setActiveNfts] = useState([]);
     const [inactiveNfts, setInactiveNfts] = useState([]);
     const [royalties, setRoyalties] = useState([]);
     const [hasNft, setHasNft] = useState(false);
 
+    //fetch the nfts in connected wallet from the specified hashlist (happens on Next backend).
+    //Sort returned nft objects by the active parameter in metadata
     async function getNfts() {
         const url = '/api/utils/getNfts';
 
@@ -42,13 +45,14 @@ export default function DashboardA() {
         if (wallet?.publicKey) getNfts();
     }, [wallet]);
 
+    //fetch the royalty due for each of the inactive nfts, run only if inactive nfts
     async function fetchRoyaltyDue() {
         for (let nft of inactiveNfts) {
             const url = '/api/utils/fetchRoyalty';
 
             axios.request(url, { params: { mint: nft.tokenAddress } }).then((response) => {
                 const data = response.data;
-                setRoyalties((prev) => [...prev, data.activation_fee === '0' ? 0.01 : parseFloat(data.activation_fee)]);
+                setRoyalties((prev) => [...prev, data.activation_fee === '0' ? 0.01 : parseFloat(data.activation_fee)]); //The conditional selecting the Royalty fee is only in place due to only one collection being used for two different options.
             });
         }
     }

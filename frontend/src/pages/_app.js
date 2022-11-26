@@ -34,10 +34,11 @@ const App = ({ Component, pageProps }) => {
             <WalletProvider wallets={wallets} autoConnect>
                 <WalletModalProvider>
                     <Head>
-                        <title>Broken Nft</title>
+                        <title>Broken Nft</title> {/* Set the title of your Website */}
                         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                     </Head>
                     <Nav>
+                        {/* Navbar wraps components in order to be present on each page */}
                         <motion.div
                             key={router.route}
                             initial="initial"
@@ -51,6 +52,7 @@ const App = ({ Component, pageProps }) => {
                                 },
                             }}
                         >
+                            {/* Wrap the components in the Framer Motion component to add transition to pages */}
                             <Component {...pageProps} />
                         </motion.div>
                     </Nav>

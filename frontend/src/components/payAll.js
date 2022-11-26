@@ -6,13 +6,17 @@ import { Bounce, toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function PayAll({ mints, fees }) {
+    //define the connection class and look for confirmed committment
     const connection = new Connection(
-        'https://frosty-shy-violet.solana-mainnet.quiknode.pro/45c1c31d6e058e521eb0c8d9be91c2bc640fbfae/',
-        'confirmed'
+        'https://api.mainnet-beta.solana.com', // you can pass in a custom/private rpc url here( suggested that you do so )
+        'confirmed' //committment can be processed, confirmed or finalized. Confirmed requires that a 66.6% majority of stake has voted on the block and is the most commonly used committtment
     );
-    let toastPromise;
-    const fromWallet = useAnchorWallet();
-    const { sendTransaction } = useWallet();
+
+    let toastPromise; //declare toast to allow for global usage inside other functions
+    const fromWallet = useAnchorWallet(); //initialize the connected wallet as the "from" wallet or the sender
+    const { sendTransaction } = useWallet(); //declare the sendTransaction function provided by the solana-wallet-adapter-react
+
+    //declare and initialize state variables to handle dynamic data
     const [txSending, setTxSending] = useState(false);
     const [isTx, setIsTx] = useState(false);
     const [tx, setTx] = useState('');
@@ -20,13 +24,15 @@ export default function PayAll({ mints, fees }) {
     const [updating, setUpdating] = useState(false);
     const [errors, setErrors] = useState([]);
 
+    //front run transaction for paying ALL fees on inactive nfts in wallet
     async function pay() {
         try {
             setTxSending(true);
             toastPromise = toast.loading('Sending Transaction');
-            const royaltyAddress = new PublicKey('63CgiXpqYeziY9swqNw3oTuQy1TuNhcykGUy99q8X816');
-            const solToPay = parseInt(fees * 1000000000);
+            const royaltyAddress = new PublicKey('63CgiXpqYeziY9swqNw3oTuQy1TuNhcykGUy99q8X816'); //create publickey object for recipient wallet
+            const solToPay = parseInt(fees * 1000000000); //fees is passed in as a float amount of SOL, which is converted to lamports
 
+            //build a solana transaction with a SOL transfer instructions
             const tx = new Transaction().add(
                 SystemProgram.transfer({
                     fromPubkey: fromWallet.publicKey,
@@ -35,9 +41,10 @@ export default function PayAll({ mints, fees }) {
                 })
             );
 
-            const signature = await sendTransaction(tx, connection);
+            const signature = await sendTransaction(tx, connection); //get the signature (tx) from the user via their connected wallet(which is the signer on the tx)
             const latestBlockHash = await connection.getLatestBlockhash();
 
+            //get latest Block and use it and signature for confirmation on the connection class
             await connection.confirmTransaction({
                 blockhash: latestBlockHash.blockhash,
                 lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
@@ -45,6 +52,9 @@ export default function PayAll({ mints, fees }) {
                 Commitment: 'confirmed',
             });
 
+            //this section checks to make sure the transaction was confirmed or finalized
+            //and then makes a request to the backend to update the database that the payment has been made
+            //It also will trigger the metadata to be switched back to active image and state
             const confirmation = await connection.getSignatureStatus(signature);
 
             if (confirmation.value.confirmationStatus === 'confirmed' || 'finalized') {

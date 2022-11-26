@@ -2,19 +2,24 @@ import { useAnchorWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function Nav({ children }) {
+export default function Nav({ children /* children is passed in to load pages because nav wraps the components */ }) {
+    //declare and initialize state variables to handle navbar expansion
+    //and to determine which page is currently selected
     const [isExpanded, setIsExpanded] = useState(false);
     const [pageSelected, setPageSelected] = useState('');
 
+    //initialize the wallet object to check for isConnected
     const wallet = useAnchorWallet();
     const router = useRouter();
 
+    //function to handle navbar expansion and closing
     const toggleNav = () => {
         setIsExpanded(!isExpanded);
     };
 
+    //on page change, set the page selection to the appropriate page
     useEffect(() => {
         if (router.pathname === '/') {
             setPageSelected('home');

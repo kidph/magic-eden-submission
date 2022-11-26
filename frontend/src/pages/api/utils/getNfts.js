@@ -1,5 +1,5 @@
 const { Connection } = require('@solana/web3.js');
-const { getParsedNftAccountsByOwner } = require('@nfteyez/sol-rayz');
+const { getParsedNftAccountsByOwner } = require('@nfteyez/sol-rayz'); //sol-rayz package to filter tokens in wallet using Solana/Web3.js getParsedTokenAccountsByOwner
 const axios = require('axios');
 const mongoose = require('mongoose');
 const userName = process.env.MONGO_DB_USERNAME;
@@ -16,6 +16,10 @@ const connection = new Connection(
 
 export default async function handler(req, res) {
     const walletAddress = req.query.walletAddress;
+    //first grab hashlist from database
+    //this feature allows for dynamic hashlisting
+    //All mints in collection are stored with additional properties such as active/inactive
+    //to facilitate easy removal from access
     try {
         async function getHashlist() {
             const docs = await collectionHashModel.find({});
@@ -25,12 +29,14 @@ export default async function handler(req, res) {
             });
         }
 
-        const getTshs = async () => {
+        //use the hashlist to get the nft objects from the wallet
+        const getCollectionNfts = async () => {
             await getHashlist();
             const nftArray = await getParsedNftAccountsByOwner({
                 publicAddress: walletAddress,
                 connection: connection,
             });
+            //map through to get the metadata from the nft uri
             const allMetadatas = await Promise.all(
                 nftArray.map(async (nft, i) => {
                     if (hashlist.includes(nft.mint)) {
@@ -42,6 +48,7 @@ export default async function handler(req, res) {
                                 return metadata;
                             })
                             .catch((err) => {
+                                //this catch helps to prevent cors errors from hanging up the process or ignoring mints completely
                                 let metadata = {};
                                 metadata.image = 'security risk';
                                 metadata.tokenAddress = nft.mint;
@@ -50,13 +57,13 @@ export default async function handler(req, res) {
                             });
                         return uriData;
                     } else {
-                        return { tokenAddress: 'fuck you' };
+                        return { tokenAddress: 'not in collection' };
                     }
                 })
             );
             res.json(allMetadatas.filter((e) => hashlist.includes(e.tokenAddress)));
         };
-        getTshs();
+        getCollectionNfts();
     } catch (err) {
         res.json(err);
     }
