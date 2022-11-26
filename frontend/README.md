@@ -15,7 +15,11 @@ Both use similar mechanics under the hood, but operate differently. A detailed e
 ---
 
 ## Video Walkthrough
-[video](file:///magic-eden-submission%20%281%29.mp4)
+
+
+https://user-images.githubusercontent.com/97425666/204110712-b8f24375-213d-4265-b566-aa1baea27b18.mp4
+
+
 ---
 
 ## Features
