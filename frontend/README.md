@@ -2,7 +2,7 @@
 
 This is the source code for the front end portion of my submission to the royalty/ancillery revenue hackathon.
 
-The demo site with description is available here ---> <htts://nft-subscription-demo.xyz>
+The demo site with description is available here ---> <https://nft-subscription-demo.xyz>
 
 Royalties are an important part of a projects continued revenue and continued drive to produce. Paired with the backend and a Mongo Database, I've proposed a solution for NFT projects to use to attempt to
 
