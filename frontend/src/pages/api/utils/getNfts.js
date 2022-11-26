@@ -4,15 +4,13 @@ const axios = require('axios');
 const mongoose = require('mongoose');
 const userName = process.env.MONGO_DB_USERNAME;
 const pass = process.env.MONGO_DB_PASSWORD;
-const mongoPath = `mongodb+srv://${userName}:${pass}@cluster0.795zabb.mongodb.net/engagement-tracking`;
+const mongoUrl = process.env.MONGO_URL;
+const mongoPath = `mongodb+srv://${userName}:${pass}${mongoUrl}`;
 const collectionHashModel = require('../../../schemas/collectionHashSchema');
 mongoose.connect(mongoPath);
 let hashlist = [];
 
-const connection = new Connection(
-    'https://frosty-shy-violet.solana-mainnet.quiknode.pro/45c1c31d6e058e521eb0c8d9be91c2bc640fbfae/',
-    'confirmed'
-);
+const connection = new Connection('https://api.mainnet-beta.solana.com', 'confirmed');
 
 export default async function handler(req, res) {
     const walletAddress = req.query.walletAddress;

@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const userName = process.env.MONGO_DB_USERNAME;
 const pass = process.env.MONGO_DB_PASSWORD;
-const mongoPath = `mongodb+srv://${userName}:${pass}@cluster0.795zabb.mongodb.net/engagement-tracking`;
+const mongoUrl = process.env.MONGO_URL;
+const mongoPath = `mongodb+srv://${userName}:${pass}${mongoUrl}`;
 const collectionHashModel = require("../schemas/collectionHashSchema");
 mongoose.connect(mongoPath);
 

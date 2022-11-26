@@ -2,7 +2,8 @@ var mongoose = require("mongoose");
 require("dotenv").config();
 const userName = process.env.MONGO_DB_USERNAME;
 const pass = process.env.MONGO_DB_PASSWORD;
-const mongoPath = `mongodb+srv://${userName}:${pass}@cluster0.795zabb.mongodb.net/engagement-tracking`;
+const mongoUrl = process.env.MONGO_URL;
+const mongoPath = `mongodb+srv://${userName}:${pass}${mongoUrl}`;
 var db = mongoose.createConnection(mongoPath);
 
 var collectionHashSchema = mongoose.Schema({

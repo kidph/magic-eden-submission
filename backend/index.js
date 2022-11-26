@@ -24,8 +24,8 @@ const corsOpts = {
 };
 
 app.use(cors(corsOpts));
-console.log(API_KEY);
 
+//middleware function to check incoming apikey on get requests
 const accessGranted = (req, res, next) => {
   if (API_KEY !== req.query.key) {
     return res.status(401).json("Access Denied.");
@@ -39,14 +39,7 @@ app.get("/", accessGranted, (req, res) => {
   res.status(200).json("Welcome To Corn Pop's Stuf boiiiii");
 });
 
-app.get("/api/restore", accessGranted, async (req, res) => {
-  const mint = req.query.mint;
-  console.log(mint);
-  const restore = await restoreNft(mint);
-  console.log(restore);
-  res.status(200).json("successful restoration");
-});
-
+//endpoint to trigger breaking of nft for royalties not paid (webhook dump)
 app.post("/api/helius-hook", async (req, res) => {
   try {
     if (hashlist.includes(req.body[0]?.events?.nft?.nfts[0]?.mint)) {
@@ -71,6 +64,8 @@ app.post("/api/helius-hook", async (req, res) => {
                 creators?.includes(e.toUserAccount)
               )
             ) {
+              //until here is checking royalties using the webhook trigger
+              //and helius api to check if sol was transferred to any of the creators
               const feeToPay =
                 (req.body[0]?.events?.nft?.amount / 1000000000) *
                 (data[0]?.onChainData?.data?.sellerFeeBasisPoints / 10000);
@@ -82,6 +77,7 @@ app.post("/api/helius-hook", async (req, res) => {
                 tx: tx,
               };
 
+              //functions to update the metadata and database to reflect a broken nft (royalties unpaid)
               async function runFuncs() {
                 console.log(mint);
                 const updateDatabase = await update(saleInfo);
@@ -104,6 +100,16 @@ app.post("/api/helius-hook", async (req, res) => {
   }
 });
 
+//endpoint to return nft from broken state after payment is received
+app.get("/api/restore", accessGranted, async (req, res) => {
+  const mint = req.query.mint;
+  console.log(mint);
+  const restore = await restoreNft(mint);
+  console.log(restore);
+  res.status(200).json("successful restoration");
+});
+
+//endpoint to reinstate nft when subscription has been paid
 app.get("/api/refreshSubscription", accessGranted, async (req, res) => {
   let mint = req.query.mint;
   let tx = req.query.tx;
@@ -118,6 +124,7 @@ app.get("/api/refreshSubscription", accessGranted, async (req, res) => {
   }
 });
 
+//function to run every 4 hours to check whether subscription has lapsed
 (async () => {
   const result = await checkSubscription();
   console.log(result);
@@ -125,6 +132,8 @@ app.get("/api/refreshSubscription", accessGranted, async (req, res) => {
 setInterval(async () => {
   await checkSubscription();
 }, 1000 * 60 * 60 * 4);
+
+//listener for requests
 app.listen(
   PORT,
   () => console.log("Server Live on Port: " + PORT) /* , "0.0.0.0" */
