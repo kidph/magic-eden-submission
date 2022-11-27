@@ -4,7 +4,8 @@
 
 ---
 
-img here
+![broken](https://user-images.githubusercontent.com/97425666/204115020-4edb6cfb-4f76-4202-bd03-c09155ff5595.png)
+
 
 The demo site with description is available here ---> <https://nft-subscription-demo.xyz>
 
@@ -38,7 +39,8 @@ While this proposal doesn't enforce royalties on-chain, it offers a solution to 
 
 - Dashboard that will display active and inactive nfts and the fee require to activate (metadata reflects active/inactive state)
 
-db image
+![dasha](https://user-images.githubusercontent.com/97425666/204115029-cbbf4bfe-4501-4173-b4a8-87eb63d8a02f.JPG)
+
 
 - Upon payment, backend triggers two functions again. One to update database to clear fee and restore access, the other to put the active metadata and image back in place.
 
@@ -68,7 +70,8 @@ Instead of minting a project and paying royalties on sales, my second proposal o
 
 - Dashboard that will display active and inactive nfts and the fee require to activate (metadata reflects active/inactive state)
 
-db image
+![dashb](https://user-images.githubusercontent.com/97425666/204115033-282a19d8-4f19-46d0-b50c-3377706ca579.JPG)
+
 
 - Upon payment, backend triggers two functions again. One to update database to clear fee and restore access, the other to put the active metadata and image back in place.
 
